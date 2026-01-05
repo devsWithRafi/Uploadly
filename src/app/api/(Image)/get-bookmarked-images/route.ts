@@ -24,10 +24,14 @@ export async function POST(req: NextRequest) {
 
     const bookMarkd = await prisma.bookmark.findMany({
         where: { userId },
+        orderBy: {
+            image: { createdAt: 'desc' },
+        },
         include: {
             image: {
                 include: {
                     likes: true,
+                    comments: true,
                     user: true,
                     bookmark: true,
                     _count: {
@@ -35,9 +39,6 @@ export async function POST(req: NextRequest) {
                             likes: true,
                         },
                     },
-                },
-                orderBy: {
-                    createdAt: 'desc',
                 },
             },
         },

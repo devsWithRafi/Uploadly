@@ -7,9 +7,11 @@ export async function GET() {
             user: true,
             likes: true,
             bookmark: true,
+            comments: true,
             _count: {
                 select: {
                     likes: true,
+                    comments: true
                 },
             },
         },

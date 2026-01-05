@@ -8,6 +8,9 @@ type AddLikesType = {
 };
 
 type AddBookMarkType = AddLikesType;
+type AddCommentType = AddLikesType & {
+    comment: string;
+};
 
 // ADD LIKES TO IMAGE
 export async function AddLikes({ userId, imageId }: AddLikesType) {
@@ -52,4 +55,22 @@ export async function AddToBookMark({ userId, imageId }: AddBookMarkType) {
         });
         return { bookMarked: true };
     }
+}
+// ADD IMAGE TO BOOKMARK
+export async function AddComments({
+    userId,
+    imageId,
+    comment,
+}: AddCommentType) {
+    if (!userId || !comment || !imageId) return;
+
+    await prisma.comment.create({
+        data: {
+            userId,
+            imageId,
+            comment,
+        },
+    });
+
+    return { commented: true };
 }

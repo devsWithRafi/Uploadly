@@ -20,9 +20,11 @@ export async function GET(
         include: {
             user: true,
             likes: true,
+            comments: true,
             _count: {
                 select: {
                     likes: true,
+                    comments: true,
                 },
             },
         },

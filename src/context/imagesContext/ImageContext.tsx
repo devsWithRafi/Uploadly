@@ -18,13 +18,23 @@ type imgLikes = {
     imageId: string;
 };
 
+type imgComment = {
+    id?: number | string;
+    comment: string;
+
+    userId: string;
+    imageId: string;
+};
+
 type imgBookmark = imgLikes;
 
 type image = Image & {
     likes: imgLikes[];
+    comments: imgComment[];
     bookmark: imgBookmark[];
     _count: {
         likes: number;
+        comments: number;
     };
 };
 export type imagesType = image & {

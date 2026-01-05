@@ -8,7 +8,13 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IoMdHeart } from 'react-icons/io';
 
-const ImageLikeButton = ({ image }: { image: imagesType }) => {
+const ImageLikeButton = ({
+    image,
+    text = true,
+}: {
+    image: imagesType;
+    text?: boolean;
+}) => {
     const { currentUser } = useCurrentUser();
     const router = useRouter();
     // HANDLE LIKES PART
@@ -39,15 +45,15 @@ const ImageLikeButton = ({ image }: { image: imagesType }) => {
                         ? handleLikeClick(currentUser.id, image.id)
                         : router.push('/signup')
                 }
-                size={22}
+                size={20}
                 className={cn(
                     'cursor-pointer hover:text-pink-400 transition',
                     currentUser && liked && 'text-pink-400'
                 )}
             />
-            <div className="text-[15px] select-none flex items-center gap-1">
+            <div className="text-[14px] select-none flex items-center gap-1">
                 <span>{likes}</span>
-                <span>Like</span>
+                <span className={cn('', !text && 'hidden')}>Like</span>
             </div>
         </section>
     );
