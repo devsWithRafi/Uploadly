@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String  @id @default(cuid())
+  clerkId    String
+  image      String?
+  coverImage String?
+  bio        String?
+  name       String
+  email      String  @unique
+
+  bookmark Bookmark[]
+
+  images Image[]
+  likes  Like[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("user")
+}
+
+model Image {
+  id          String  @id @default(cuid())
+  imageUrl    String
+  title       String
+  description String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likes    Like[]
+  bookmark Bookmark[]
+  category String?
+
+  createdAt DateTime @default(now())
+}
+
+model Like {
+  id Int @id @default(autoincrement())
+
+  userId  String
+  imageId String
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, imageId])
+}
+
+model Bookmark {
+  id Int @id @default(autoincrement())
+
+  imageId String
+  userId  String
+
+  image Image @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, imageId])
+}
