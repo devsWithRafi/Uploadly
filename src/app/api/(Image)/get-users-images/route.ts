@@ -17,9 +17,12 @@ export async function POST(req: NextRequest) {
         include: {
             user: true,
             likes: true,
+            comments: true,
+            bookmark: true,
             _count: {
                 select: {
                     likes: true,
+                    comments: true,
                 },
             },
         },

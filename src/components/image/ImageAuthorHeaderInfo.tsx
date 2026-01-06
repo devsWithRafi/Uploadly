@@ -16,32 +16,36 @@ const ImageAuthorHeaderInfo = ({ image }: { image: imagesType }) => {
             {/* AVATER */}
             <div className="w-full flex items-center justify-between gap-8">
                 <span className="w-full h-0.5 bg-gray-200" />
-                <div className="flex items-center justify-center min-w-20 min-h-20 aspect-square rounded-full overflow-hidden">
-                    {image.user.image && (
-                        <Image
-                            src={image.user.image}
-                            alt=""
-                            width={100}
-                            height={100}
-                            className="w-full h-full"
-                        />
-                    )}
-                </div>
+                <RedirectToProfile image={image}>
+                    <div className="flex cursor-pointer items-center justify-center min-w-20 min-h-20 aspect-square rounded-full overflow-hidden">
+                        {image.user.image && (
+                            <Image
+                                src={image.user.image}
+                                alt=""
+                                width={100}
+                                height={100}
+                                className="w-full h-full"
+                            />
+                        )}
+                    </div>
+                </RedirectToProfile>
                 <span className="w-full h-0.5 bg-gray-200" />
             </div>
             <div className="flex flex-col text-center items-center justify-center mt-5">
-                <h2 className="font-space font-semibold text-2xl">
-                    {image.user.name}
-                </h2>
+                <RedirectToProfile image={image}>
+                    <h2 className="font-space cursor-pointer hover:underline capitalize font-semibold text-2xl">
+                        {image.user.name}
+                    </h2>
+                </RedirectToProfile>
                 <p className="text-zinc-500 font-space">
                     {image.user.bio ? image.user.bio : 'No bio added'}
                 </p>
                 <div className="flex items-center gap-5 font-space mt-2">
-                    <span className="flex items-center gap-1 text-[13px] text-zinc-800 cursor-pointer">
+                    <span className="flex items-center hover:underline gap-1 text-[13px] text-zinc-800 cursor-pointer">
                         <AiOutlineMail size={20} />
                         {image.user.email}
                     </span>
-                    <span className="flex items-center gap-1 text-[13px] text-zinc-800 cursor-pointer">
+                    <span className="flex items-center hover:underline gap-1 text-[13px] text-zinc-800 cursor-pointer">
                         <IoLaptopOutline size={20} />
                         {'protfolio.com'}
                     </span>

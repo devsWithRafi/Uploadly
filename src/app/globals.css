@@ -3,6 +3,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+    --perpleColor: #6759e7;
     --eliment: white;
     --radius: 0.625rem;
     --background: white;
@@ -39,6 +40,7 @@
 }
 
 @theme inline {
+    --color-parple: var(--perpleColor);
     --color-background: var(--background);
     --color-eliment: var(--eliment);
     --font-poppins: var(--font-poppins);

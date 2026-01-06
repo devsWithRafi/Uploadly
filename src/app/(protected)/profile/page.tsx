@@ -20,6 +20,7 @@ type bookMarkedType = {
 
 const ProfilePage = () => {
     const { currentUser } = useCurrentUser();
+
     const [selected, setSelected] = useState<string>('collections');
     const [bookmarkedImg, setBookmarkedImg] = useState<bookMarkedType[]>([]);
 
@@ -58,16 +59,17 @@ const ProfilePage = () => {
                 bio={currentUser.bio}
                 createdAt={currentUser.createdAt}
             />
+
             <section className="bg-eliment w-full min-h-screen pt-20">
                 {/* COLLECTIONS */}
                 <div className="">
-                    <div className="px-5 py-5 border-b border-gray-200 flex items-center justify-start">
+                    <div className="border-b border-gray-200 flex items-center justify-start">
                         <button
                             onClick={() => setSelected('collections')}
                             className={cn(
-                                'flex items-center cursor-pointer px-5 py-2.5 rounded-full gap-2 text-md font-poppins uppercase font-medium text-zinc-500 hover:text-white hover:bg-zinc-800 duration-300 ease-in-out',
+                                'flex items-center cursor-pointer px-5 py-2.5 gap-2 text-md font-poppins uppercase font-medium text-zinc-500 hover:text-zinc-800 border-b-2 border-transparent  duration-300 ease-in-out',
                                 selected === 'collections' &&
-                                    'bg-zinc-800 text-zinc-200'
+                                    'text-zinc-800 border-b-2 border-zinc-800'
                             )}
                         >
                             <MdOutlineCollections size={20} />
@@ -76,9 +78,9 @@ const ProfilePage = () => {
                         <button
                             onClick={showBookmarks}
                             className={cn(
-                                'flex items-center cursor-pointer px-5 py-2.5 rounded-full gap-2 text-md font-poppins uppercase font-medium text-zinc-500 hover:text-white hover:bg-zinc-800 duration-300 ease-in-out',
+                                'flex items-center cursor-pointer px-5 py-2.5 gap-2 text-md font-poppins uppercase font-medium text-zinc-500 hover:text-zinc-800 border-b-2 border-transparent  duration-300 ease-in-out',
                                 selected === 'bookmarks' &&
-                                    'bg-zinc-800 text-zinc-200'
+                                    'text-zinc-800 border-b-2 border-zinc-800'
                             )}
                         >
                             <LuBookmarkCheck size={20} />
@@ -91,7 +93,11 @@ const ProfilePage = () => {
                             {currentUserImages &&
                             currentUserImages?.length > 0 ? (
                                 currentUserImages.map((item) => (
-                                    <ImageBox key={item.id} image={item} />
+                                    <ImageBox
+                                        key={item.id}
+                                        image={item}
+                                        editMode={true}
+                                    />
                                 ))
                             ) : (
                                 <FirstUploadImageBox />
@@ -106,6 +112,7 @@ const ProfilePage = () => {
                                     <ImageBox
                                         key={item.id}
                                         image={item.image}
+                                        editMode={true}
                                     />
                                 ))}
                         </div>

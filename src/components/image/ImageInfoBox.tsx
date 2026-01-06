@@ -1,12 +1,8 @@
 import { imagesType } from '@/context/imagesContext/ImageContext';
 import Image from 'next/image';
-import React, { useState } from 'react';
 import ImageLikeButton from './ImageLikeButton';
-import { BiMessageSquareDetail } from 'react-icons/bi';
-import { IoMdShareAlt } from 'react-icons/io';
-import Portal from '../Portal';
-import Sideber from '../Sideber';
 import ImageCommentButton from './ImageCommentButton';
+import ImageShareButton from './ImageShareButton';
 
 const ImageInfoBox = ({ image }: { image: imagesType }) => {
     return (
@@ -20,18 +16,16 @@ const ImageInfoBox = ({ image }: { image: imagesType }) => {
                 className="w-full"
             />
             <div className="flex items-center gap-5">
-                <span className="bg-gray-100 px-5 py-2 rounded-full">
+                <span className="bg-gray-100 px-5 py-2 rounded-full cursor-pointer hover:bg-zinc-800 hover:text-white ease-in-out duration-300">
                     <ImageLikeButton image={image} />
                 </span>
-                <span className="bg-gray-100 px-5 py-2 rounded-full">
+                <span className="bg-gray-100 px-5 py-2 rounded-full cursor-pointer hover:bg-zinc-800 hover:text-white ease-in-out duration-300">
                     <ImageCommentButton image={image} />
                 </span>
-                <span className="bg-gray-100 px-5 py-2 rounded-full text-[15px] select-none flex items-center gap-1 text-zinc-500 cursor-pointer">
-                    <h2 className="font-medium">Share</h2>
-                    <IoMdShareAlt size={20} />
+                <span className="bg-gray-100 px-5 py-2 rounded-full cursor-pointer hover:bg-zinc-800 hover:text-white ease-in-out duration-300">
+                    <ImageShareButton image={image} />
                 </span>
             </div>
-            {/* <h2>{image.description}</h2> */}
             <p className="font-space text-zinc-500 text-xl mt-5">
                 {image.description}
             </p>

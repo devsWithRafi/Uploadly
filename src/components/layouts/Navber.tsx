@@ -1,8 +1,6 @@
 'use client';
 import Logo from '../ui/Logo';
 import Link from 'next/link';
-import { FiSearch } from 'react-icons/fi';
-import { HiOutlinePlus } from 'react-icons/hi2';
 import { Button } from '../ui/button';
 import { UserButton } from '@clerk/nextjs';
 import { FiArrowRight } from 'react-icons/fi';
@@ -11,9 +9,13 @@ import Portal from '../Portal';
 import { useState } from 'react';
 import UploadImageForm from '../image/UploadImageForm';
 import { CircleFadingPlus } from 'lucide-react';
+import Aveter from '../ui/Aveter';
+import { useCurrentUser } from '@/context/user-context/UserContext';
+import SearchBer from '../SearchBer';
 
 const Navber = () => {
     const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
+    const { currentUser } = useCurrentUser();
 
     return (
         <section className="w-full fixed top-0 left-0 right-0 h-20 shadow-md bg-eliment z-[50]">
@@ -24,14 +26,8 @@ const Navber = () => {
                     <Link href={'/'}>
                         <Logo />
                     </Link>
-                    <div className="w-full text-gray-500 flex items-center justify-between h-13 px-5 rounded-full text-[15px] bg-gray-100">
-                        <input
-                            type="text"
-                            className="w-full border-0 outline-0 h-full"
-                            placeholder="What are you looking for?"
-                        />
-                        <FiSearch size={22} className="ml-2 cursor-pointer" />
-                    </div>
+                    {/* SEARCHBER */}
+                    <SearchBer />
                 </div>
 
                 {/* RIGHT SIDE */}
@@ -46,7 +42,7 @@ const Navber = () => {
                                 Explore
                             </Link>
                             <Link
-                                href="/"
+                                href="/profile"
                                 className="hover:text-black transition-all"
                             >
                                 My Collection
@@ -57,8 +53,11 @@ const Navber = () => {
                     {/* IF SIGNEDIN */}
                     <SignedIn>
                         <div className="flex items-center gap-5 ml-5 font-medium">
-                            <div className="flex items-center justify-center scale-[1.3] bg-zinc-800 rounded-full p-1">
-                                <UserButton />
+                            <div className="flex items-center justify-center rounded-full ">
+                                {/* <UserButton /> */}
+                                <Link href={'/profile'}>
+                                    <Aveter image={currentUser.image} />
+                                </Link>
                             </div>
                             <Button
                                 onClick={() => setIsUploadOpen((prev) => !prev)}

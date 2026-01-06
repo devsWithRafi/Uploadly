@@ -11,16 +11,25 @@ import { useParams } from 'next/navigation';
 import { AiOutlineMail } from 'react-icons/ai';
 import ImageAuthorHeaderInfo from '@/components/image/ImageAuthorHeaderInfo';
 import ImageInfoBox from '@/components/image/ImageInfoBox';
+import RedirectToProfile from '@/components/RedirectToProfile';
 
 const ImageViewPage = () => {
     const { images } = useImages();
-    const { imageId } = useParams();
+    const params = useParams();
+
+    const slug = Array.isArray(params.imageId)
+        ? params.imageId[0]
+        : params.imageId;
+    const imageId = slug?.split('--')[1];
+
     const imageFound = images?.find((item) => item.id === imageId);
     const { currentUser } = useCurrentUser();
 
-    const imageSuggetions = images?.filter(
-        (item) =>
-            item.userId !== imageFound?.userId && item.userId !== currentUser.id
+    const imageSuggetions = images?.filter((item) =>
+        currentUser
+            ? item.userId !== imageFound?.userId &&
+              item.userId !== currentUser.id
+            : item.userId !== imageFound?.userId
     );
 
     if (!imageFound) return;
@@ -28,28 +37,32 @@ const ImageViewPage = () => {
     return (
         <>
             <Navber />
-            <main className="w-full pt-20">
+            <main className="w-full pt-30">
                 <Container className="mx-auto w-[60%]">
                     {/* IMAGE AUTHOR INFO HEADER */}
-                    <section className="flex items-center justify-between font-poppins py-10">
+                    <header className="flex items-center border-b justify-between font-poppins py-5 mb-5">
                         {/* LEFT SIDE */}
                         <div className="flex items-center gap-4">
                             {/* AVATER */}
-                            <div className="flex items-center justify-center w-15 h-15 rounded-full overflow-hidden">
-                                {imageFound.user.image && (
-                                    <Image
-                                        src={imageFound.user.image}
-                                        alt=""
-                                        width={100}
-                                        height={100}
-                                        className="w-full h-full"
-                                    />
-                                )}
-                            </div>
+                            <RedirectToProfile image={imageFound}>
+                                <div className="flex items-center cursor-pointer justify-center w-15 h-15 rounded-full overflow-hidden">
+                                    {imageFound.user.image && (
+                                        <Image
+                                            src={imageFound.user.image}
+                                            alt=""
+                                            width={100}
+                                            height={100}
+                                            className="w-full h-full"
+                                        />
+                                    )}
+                                </div>
+                            </RedirectToProfile>
                             <div className="flex flex-col">
-                                <h2 className="font-semibold text-[16px]">
-                                    {imageFound.user.name}
-                                </h2>
+                                <RedirectToProfile image={imageFound}>
+                                    <h2 className="font-semibold text-[16px] cursor-pointer hover:underline capitalize">
+                                        {imageFound.user.name}
+                                    </h2>
+                                </RedirectToProfile>
                                 <p className="text-zinc-500 text-[12px]">
                                     {imageFound.user.bio
                                         ? imageFound.user.bio
@@ -64,7 +77,7 @@ const ImageViewPage = () => {
                             </span>
                             <ImageBookmarkButton image={imageFound} />
                         </div>
-                    </section>
+                    </header>
 
                     {/* IMAGE INFO */}
                     <ImageInfoBox image={imageFound} />

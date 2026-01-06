@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
+import { cn } from '@/lib/utils';
 
 const Logo = () => {
     return (
@@ -9,7 +10,7 @@ const Logo = () => {
                 alt="logo"
                 width={50}
                 height={50}
-                className="w-12.5 h-12.5 select-none pointer-events-none"
+                className={cn('w-12.5 h-12.5 select-none pointer-events-none')}
             />
             Uploadly
         </div>

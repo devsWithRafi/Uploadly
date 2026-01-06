@@ -12,23 +12,34 @@ import { useTimeAgo } from '@/hooks/useTimeAgo';
 import Link from 'next/link';
 import RedirectToProfile from '../RedirectToProfile';
 import ImageCommentButton from './ImageCommentButton';
+import { useSlugifyUrl } from '@/hooks/useSlugifyUrl';
+import { FiEdit } from 'react-icons/fi';
+import { useCurrentUser } from '@/context/user-context/UserContext';
+import Portal from '../Portal';
+import ImageUpdateForm from './ImageUpdateForm';
+import ImageEditButton from './ImageEditButton';
 
 const ImageBox = ({
     image,
     varient,
+    editMode = false,
 }: {
     image: imagesType;
     varient?: string;
+    editMode?: boolean;
 }) => {
     const [imageLoaded, setImageLoaded] = useState<boolean>(false);
-
+    const { currentUser } = useCurrentUser();
     const imageCreatedAt = useTimeAgo(image.createdAt);
 
     return (
-        <section className="w-full">
+        <main className="w-full">
             {/* IMAGE BOX TOP */}
-            <div className="overflow-hidden w-full aspect-[2/1.4] flex items-center justify-center rounded-md relative cursor-pointer group">
-                <Link href={`/${image.id}`} className="w-full h-full">
+            <section className="overflow-hidden w-full aspect-[2/1.4] flex items-center justify-center rounded-md relative cursor-pointer group">
+                <Link
+                    href={`/${useSlugifyUrl(image.title, image.id)}`}
+                    className="w-full h-full"
+                >
                     <Image
                         src={image.imageUrl}
                         alt=""
@@ -41,12 +52,23 @@ const ImageBox = ({
                         )}
                     />
                 </Link>
-                {(imageCreatedAt.includes('min') ||
-                    imageCreatedAt.includes('sec')) && (
-                    <span className="absolute bg-red-500/70 shadow top-3 left-3 px-3 rounded font-space leading-3 h-7 flex items-center justify-center text-white">
-                        NEW
-                    </span>
+
+                {/* EDIT IMAGE */}
+                {imageLoaded && currentUser.id === image.userId && editMode && (
+                    <section className="absolute top-3 duration-300 right-3 opacity-0 group-hover:opacity-100">
+                        <ImageEditButton image={image} />
+                    </section>
                 )}
+
+                <div className="flex items-center gap-3">
+                    {(imageCreatedAt.includes('min') ||
+                        imageCreatedAt.includes('sec')) && (
+                        <span className="absolute bg-red-500/70 shadow top-3 left-3 px-3 rounded font-space leading-3 h-7 flex items-center justify-center text-white">
+                            NEW
+                        </span>
+                    )}
+                </div>
+
                 {/* LOADER */}
                 {!imageLoaded && (
                     <span className="absolute w-full h-full flex items-center justify-center text-gray-500 font-poppins">
@@ -79,9 +101,9 @@ const ImageBox = ({
                         </div>
                     </div>
                 )}
-            </div>
+            </section>
             {/* BOTTOM */}
-            <div className="py-5">
+            <section className="py-5">
                 <div className="flex items-center justify-between gap-3 text-lg text-white font-poppins">
                     {/* LEFT */}
                     <div className="flex items-center gap-3">
@@ -130,8 +152,8 @@ const ImageBox = ({
                         />
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </main>
     );
 };
 

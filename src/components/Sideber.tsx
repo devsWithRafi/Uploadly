@@ -12,6 +12,10 @@ import toast from 'react-hot-toast';
 import { RiSendPlaneLine } from 'react-icons/ri';
 import { BiMessageSquareError } from 'react-icons/bi';
 import { Spinner } from './ui/spinner';
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import RedirectToProfile from './RedirectToProfile';
+import { Button } from './ui/button';
+import { BiLogInCircle } from 'react-icons/bi';
 
 interface CommentsType {
     id: number | string;
@@ -93,15 +97,15 @@ const Sideber = ({ isOpen, image }: { isOpen: boolean; image: imagesType }) => {
                                 className="flex items-start py-3 gap-2 font-medium font-poppins"
                             >
                                 {/* AVATER */}
-                                <Link href={'/'}>
+                                <RedirectToProfile image={image}>
                                     <Image
                                         src={item.user.image!}
                                         alt=""
                                         width={200}
                                         height={200}
-                                        className="min-w-10 min-h-10 max-w-10 max-h-10 aspect-square rounded-full"
+                                        className="min-w-10 min-h-10 max-w-10 max-h-10 aspect-square rounded-full cursor-pointer"
                                     />
-                                </Link>
+                                </RedirectToProfile>
                                 <div>
                                     {/* Persons name */}
                                     <h2 className="mt-2 text-[16px]">
@@ -142,25 +146,34 @@ const Sideber = ({ isOpen, image }: { isOpen: boolean; image: imagesType }) => {
                     loading && 'pointer-events-none select-none'
                 )}
             >
-                <div className="flex items-center justify-between border border-zinc-400 h-10 px-[5px] rounded-full gap-2">
-                    <input
-                        type="text"
-                        placeholder="Write here..."
-                        onChange={(e) => setComment(e.target.value)}
-                        value={comment}
-                        className="w-full border-0 outline-0 h-full pl-4 text-zinc-500"
-                    />
-                    <button
-                        onClick={handleComment}
-                        className={cn(
-                            'flex items-center gap-1 rounded-full bg-zinc-200 px-3 py-[3px] font-poppins text-[15px] cursor-pointer select-none hover:bg-black hover:text-white ease-in-out duration-200',
-                            loading && 'pointer-events-none select-none'
-                        )}
-                    >
-                        {loading ? <Spinner /> : <RiSendPlaneLine />}
-                        {loading ? 'Sening' : 'Send'}
-                    </button>
-                </div>
+                <SignedIn>
+                    <div className="flex items-center justify-between border border-zinc-400 h-10 px-[5px] rounded-full gap-2">
+                        <input
+                            type="text"
+                            placeholder="Write here..."
+                            onChange={(e) => setComment(e.target.value)}
+                            value={comment}
+                            className="w-full border-0 outline-0 h-full pl-4 text-zinc-500"
+                        />
+                        <button
+                            onClick={handleComment}
+                            className={cn(
+                                'flex items-center gap-1 rounded-full bg-zinc-200 px-3 py-[3px] font-poppins text-[15px] cursor-pointer select-none hover:bg-black hover:text-white ease-in-out duration-200',
+                                loading && 'pointer-events-none select-none'
+                            )}
+                        >
+                            {loading ? <Spinner /> : <RiSendPlaneLine />}
+                            {loading ? 'Sening' : 'Send'}
+                        </button>
+                    </div>
+                </SignedIn>
+                <SignedOut>
+                    <Link href="/signin">
+                        <Button className="w-full p-5.5 font-poppins">
+                            <BiLogInCircle /> Login
+                        </Button>
+                    </Link>
+                </SignedOut>
             </div>
         </main>
     );
