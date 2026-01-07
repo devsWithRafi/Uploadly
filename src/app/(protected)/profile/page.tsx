@@ -53,12 +53,7 @@ const ProfilePage = () => {
 
     return (
         <>
-            <ProfileHeader
-                name={currentUser.name}
-                avater={currentUser.image}
-                bio={currentUser.bio}
-                createdAt={currentUser.createdAt}
-            />
+            <ProfileHeader user={currentUser} />
 
             <section className="bg-eliment w-full min-h-screen pt-20">
                 {/* COLLECTIONS */}

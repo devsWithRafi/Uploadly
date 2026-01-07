@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
                     _count: {
                         select: {
                             likes: true,
+                            comments: true,
                         },
                     },
                 },

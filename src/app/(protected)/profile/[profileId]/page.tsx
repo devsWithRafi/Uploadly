@@ -67,14 +67,7 @@ const ViewUsers = () => {
 
     return (
         <section>
-            {user && (
-                <ProfileHeader
-                    name={user.name}
-                    avater={user.image}
-                    bio={user.bio}
-                    createdAt={user.createdAt}
-                />
-            )}
+            {user && <ProfileHeader user={user} />}
             {user && (
                 <section className="bg-eliment w-full min-h-screen pt-20">
                     {/* COLLECTIONS */}

@@ -55,9 +55,7 @@ const Navber = () => {
                         <div className="flex items-center gap-5 ml-5 font-medium">
                             <div className="flex items-center justify-center rounded-full ">
                                 {/* <UserButton /> */}
-                                <Link href={'/profile'}>
-                                    <Aveter image={currentUser.image} />
-                                </Link>
+                                <Aveter />
                             </div>
                             <Button
                                 onClick={() => setIsUploadOpen((prev) => !prev)}

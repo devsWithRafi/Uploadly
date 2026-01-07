@@ -13,11 +13,8 @@ import Link from 'next/link';
 import RedirectToProfile from '../RedirectToProfile';
 import ImageCommentButton from './ImageCommentButton';
 import { useSlugifyUrl } from '@/hooks/useSlugifyUrl';
-import { FiEdit } from 'react-icons/fi';
-import { useCurrentUser } from '@/context/user-context/UserContext';
-import Portal from '../Portal';
-import ImageUpdateForm from './ImageUpdateForm';
 import ImageEditButton from './ImageEditButton';
+import { useCurrentUser } from '@/context/user-context/UserContext';
 
 const ImageBox = ({
     image,
@@ -54,7 +51,7 @@ const ImageBox = ({
                 </Link>
 
                 {/* EDIT IMAGE */}
-                {imageLoaded && currentUser.id === image.userId && editMode && (
+                {imageLoaded && currentUser?.id === image.userId && editMode && (
                     <section className="absolute top-3 duration-300 right-3 opacity-0 group-hover:opacity-100">
                         <ImageEditButton image={image} />
                     </section>
