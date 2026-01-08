@@ -45,9 +45,7 @@ export async function PUT(req: NextRequest) {
                     coverImagePublicId: image.public_id,
                 },
             }),
-            // prisma upsert() -> means if the table already exist then
-            // update it otherwise create it, So we didnt need to handle
-            // this with if-else conditions
+
             prisma.social.upsert({
                 where: { userId },
                 update: { platforms: platforms },
