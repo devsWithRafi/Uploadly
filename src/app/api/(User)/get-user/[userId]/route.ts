@@ -1,11 +1,14 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(
-    req: NextRequest,
-    { params }: { params: { userId: string } }
-) {
-    const { userId } = await params;
+interface ParamsProps {
+    params: {
+        userId: string;
+    };
+}
+
+export async function GET(req: NextRequest, context: ParamsProps) {
+    const { userId } = await context.params;
 
     if (!userId) {
         return NextResponse.json(

@@ -7,8 +7,8 @@ interface ParamsProps {
     };
 }
 
-export async function GET(req: NextRequest, { params }: ParamsProps) {
-    const { imageId } = await params;
+export async function GET(req: NextRequest, context: ParamsProps) {
+    const { imageId } = await context.params;
     
     if (!imageId) {
         return NextResponse.json(
