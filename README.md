@@ -1,8 +1,8 @@
-# Uploadly — Full-stack NextTs image sharing platform
+# Uploadly
 
-### Built a feature-rich platform where users can upload, manage, and interact with images. The platform includes editing and deletion controls, social engagement tools (likes, comments, shares, bookmarks), and customizable user profiles.
+Full-stack NextTs image sharing platform where users can upload, manage, and interact with images. The platform includes editing and deletion controls, social engagement tools (likes, comments, shares, bookmarks), and customizable user profiles.
 
-### Live Demo: https://uploadly-nu.vercel.app
+#### Live Demo: https://uploadly-nu.vercel.app
 
 <table>
   <tr>
