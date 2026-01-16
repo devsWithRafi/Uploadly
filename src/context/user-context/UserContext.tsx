@@ -1,18 +1,23 @@
 'use client';
 
 import { createContext, ReactNode, useContext } from 'react';
-import type { Prisma } from '@prisma/client';
 
-type CurrentUser = Prisma.UserGetPayload<{}> | null;
+import { User } from '@/generated/prisma/client';
 
-const UserContext = createContext<CurrentUser>(null);
+type CurrentUser = User | null;
+
+type UserContextType = {
+    currentUser: User | null;
+};
+
+const UserContext = createContext<UserContextType | null>(null);
 
 export const UserDataProvider = ({
     currentUser,
     children,
 }: {
     children: ReactNode;
-    currentUser: CurrentUser;
+    currentUser: CurrentUser | null;
 }) => {
     return (
         <UserContext.Provider value={{ currentUser }}>

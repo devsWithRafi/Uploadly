@@ -17,7 +17,7 @@ const ImageDeleteButton = ({ image }: { image: imagesType }) => {
     const handleDelete = async () => {
         const payLoad = {
             imageId: image.id,
-            userId: currentUser.id,
+            userId: currentUser?.id,
         };
         try {
             setLoading(true);

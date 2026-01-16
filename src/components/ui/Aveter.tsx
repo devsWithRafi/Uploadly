@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Spinner } from './spinner';
 import { cn } from '@/lib/utils';
+import defaultAveter from '@/assets/defaultAveter.png'
 
 const Aveter = () => {
     const { currentUser } = useCurrentUser();
@@ -19,7 +20,7 @@ const Aveter = () => {
             >
                 {currentUser && (
                     <Image
-                        src={currentUser.image}
+                        src={currentUser.image || defaultAveter}
                         alt=""
                         width={50}
                         height={50}
@@ -40,7 +41,7 @@ const Aveter = () => {
                 >
                     {currentUser && (
                         <Image
-                            src={currentUser.image}
+                            src={currentUser.image || defaultAveter}
                             alt=""
                             width={60}
                             height={60}

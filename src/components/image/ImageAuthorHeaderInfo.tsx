@@ -1,6 +1,5 @@
 import { imagesType, useImages } from '@/context/imagesContext/ImageContext';
 import Image from 'next/image';
-import React from 'react';
 import RedirectToProfile from '../RedirectToProfile';
 import ImageBox from './ImageBox';
 

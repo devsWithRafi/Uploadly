@@ -7,7 +7,6 @@ import { Spinner } from '../ui/spinner';
 import ImageLikeButton from './ImageLikeButton';
 import { imagesType } from '@/context/imagesContext/ImageContext';
 import ImageBookmarkButton from './ImageBookmarkButton';
-import { HiOutlineDownload } from 'react-icons/hi';
 import { useTimeAgo } from '@/hooks/useTimeAgo';
 import Link from 'next/link';
 import RedirectToProfile from '../RedirectToProfile';

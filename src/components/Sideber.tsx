@@ -40,21 +40,23 @@ const Sideber = ({
     }, [isOpen]);
 
     const handleComment = async () => {
-        setLoading(true);
-        if (!comment) {
-            toast.error('The comment box is epmty!');
-            setLoading(false);
-            return;
-        }
-        const userId = currentUser.id;
-        const imageId = image.id;
-        // server action
-        await AddComments({ imageId, userId, comment });
-        setComment('');
-        fetchFeedbacks();
-        fetchImages();
+        if (currentUser) {
+            setLoading(true);
+            if (!comment) {
+                toast.error('The comment box is epmty!');
+                setLoading(false);
+                return;
+            }
+            const userId = currentUser.id;
+            const imageId = image.id;
+            // server action
+            await AddComments({ imageId, userId, comment });
+            setComment('');
+            fetchFeedbacks();
+            fetchImages();
 
-        setLoading(false);
+            setLoading(false);
+        }
     };
 
     return (

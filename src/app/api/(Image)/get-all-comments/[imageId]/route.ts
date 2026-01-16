@@ -2,14 +2,12 @@ import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface ParamsProps {
-    params: {
-        imageId: string;
-    };
+    params: Promise<{ imageId: string }>;
 }
 
 export async function GET(req: NextRequest, context: ParamsProps) {
     const { imageId } = await context.params;
-    
+
     if (!imageId) {
         return NextResponse.json(
             { success: false, error: 'Image id is required!' },

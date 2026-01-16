@@ -26,18 +26,20 @@ const ProfilePage = () => {
 
     const { images } = useImages();
     const currentUserImages = images?.filter(
-        (img) => img.userId === currentUser.id
+        (img) => img.userId === currentUser?.id
     );
 
     const fetchBookMarks = async () => {
-        const res = await axios.post('/api/get-bookmarked-images', {
-            userId: currentUser.id,
-        });
+        if (currentUser) {
+            const res = await axios.post('/api/get-bookmarked-images', {
+                userId: currentUser.id,
+            });
 
-        const data = await res.data;
+            const data = await res.data;
 
-        if (data.length > 0) setBookmarkedImg(data);
-        else setBookmarkedImg([]);
+            if (data.length > 0) setBookmarkedImg(data);
+            else setBookmarkedImg([]);
+        }
     };
 
     useEffect(() => {
@@ -53,7 +55,7 @@ const ProfilePage = () => {
 
     return (
         <>
-            <ProfileHeader user={currentUser} />
+            {currentUser && <ProfileHeader user={currentUser} />}
 
             <section className="bg-eliment w-full min-h-screen pt-20 px-5">
                 {/* COLLECTIONS */}

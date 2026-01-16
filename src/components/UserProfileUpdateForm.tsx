@@ -28,6 +28,7 @@ import toast from 'react-hot-toast';
 import { FiEdit } from 'react-icons/fi';
 import { useUsersSocials } from '@/hooks/useUsersSocials';
 import defaultCover from '@/assets/defaultCover.png';
+import defaultAveter from '@/assets/defaultAveter.png';
 import { Spinner } from './ui/spinner';
 
 const socialIcons = {
@@ -63,7 +64,7 @@ const UserProfileUpdateForm = ({
     setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
     const { currentUser } = useCurrentUser();
-    const socialdata = useUsersSocials(currentUser.id);
+    const socialdata = useUsersSocials(currentUser?.id);
     const [loading, setLoading] = useState<boolean>(false);
     const [inputProfileInfo, setInputProfileInfo] = useState<profileInputType>({
         name: '',
@@ -100,6 +101,7 @@ const UserProfileUpdateForm = ({
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
+            if (!currentUser) return;
             setLoading(true);
             const formData = new FormData();
             formData.append('userId', currentUser.id);
@@ -115,7 +117,7 @@ const UserProfileUpdateForm = ({
             const data = res.data;
 
             if (res.status === 200 && data.success) {
-                toast.success(data.message);
+                toast.success('Profile Update Succesful!');
                 setIsOpen((prev) => !prev);
             } else {
                 toast.error(data.error);
@@ -129,10 +131,12 @@ const UserProfileUpdateForm = ({
 
     useEffect(() => {
         const addPreviusInfo = () => {
-            setInputProfileInfo({
-                name: currentUser.name,
-                bio: currentUser.bio,
-            });
+            if (currentUser) {
+                setInputProfileInfo({
+                    name: currentUser.name,
+                    bio: currentUser.bio || 'No Bio Added Yet',
+                });
+            }
             if (!socialdata?.platforms) return;
             setInputSocialInfo(socialdata.platforms as platformType);
         };
@@ -196,13 +200,15 @@ const UserProfileUpdateForm = ({
                 {/* PROFILE INFO */}
                 <section className="mt-5 relative px-8 max-[525px]:px-5 flex items-center gap-5">
                     <div className="w-30 max-[525px]:w-25 aspect-square rounded-full overflow-hidden">
-                        <Image
-                            src={currentUser.image}
-                            alt=""
-                            width={300}
-                            height={300}
-                            className="w-full h-full"
-                        />
+                        {currentUser && (
+                            <Image
+                                src={currentUser.image || defaultAveter}
+                                alt=""
+                                width={300}
+                                height={300}
+                                className="w-full h-full"
+                            />
+                        )}
                     </div>
                     <div className="flex flex-col gap-2 w-full">
                         {/* inputs */}
@@ -252,7 +258,10 @@ const UserProfileUpdateForm = ({
                 </section>
                 {/* SUBMIT BUTTON */}
                 <section className="w-full px-10 max-[525px]:px-7 py-10 flex flex-col gap-3">
-                    <Button type="submit" className="w-full p-5.5 max-[525px]:p-5 font-poppins">
+                    <Button
+                        type="submit"
+                        className="w-full p-5.5 max-[525px]:p-5 font-poppins"
+                    >
                         {loading ? (
                             <span className="flex items-center gap-1">
                                 <Spinner /> Updating...
