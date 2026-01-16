@@ -1,10 +1,5 @@
 'use client';
-import {
-    ChangeEvent,
-    FormEvent,
-    useCallback,
-    useState,
-} from 'react';
+import { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { useDropzone } from 'react-dropzone';
@@ -93,7 +88,7 @@ const UploadImageForm = ({ setIsOpen }: { setIsOpen?: () => void }) => {
     return (
         <section
             className={cn(
-                'md:w-150 w-[95vw] md:h-[90vh] h-[95vh] bg-white overflow-y-auto p-5 rounded',
+                'md:w-150 w-[95vw] md:h-[90vh] max-h-[90vh] bg-white overflow-y-auto p-5 rounded',
                 uploading && 'pointer-events-none select-none'
             )}
         >
@@ -102,6 +97,7 @@ const UploadImageForm = ({ setIsOpen }: { setIsOpen?: () => void }) => {
                 {...getRootProps()}
                 className={cn(
                     'w-full aspect-[2/1.2] flex items-center justify-center relative',
+                    uploading && 'opacity-[0.5]',
                     image ? 'border-0' : 'sm:border-2 border',
                     isDragActive
                         ? 'border-dashed border-blue-500'
@@ -147,10 +143,15 @@ const UploadImageForm = ({ setIsOpen }: { setIsOpen?: () => void }) => {
             {/* FORM HERE */}
             <form
                 onSubmit={handleSubmit}
-                className="w-full flex flex-col gap-5 sm:p-5 py-5 mt-2"
+                className={cn(
+                    'w-full flex flex-col gap-5 sm:p-5 py-5 mt-2',
+                    uploading && 'opacity-[0.5]'
+                )}
             >
                 <div className="flex flex-col gap-2 font-poppins font-medium">
-                    <label className='sm:text-[16px] text-[15px]'>Category*</label>
+                    <label className="sm:text-[16px] text-[15px]">
+                        Category*
+                    </label>
                     <Input
                         required
                         placeholder="Category"
@@ -161,7 +162,7 @@ const UploadImageForm = ({ setIsOpen }: { setIsOpen?: () => void }) => {
                     />
                 </div>
                 <div className="flex flex-col gap-2 font-poppins font-medium">
-                    <label className='sm:text-[16px] text-[15px]'>Title*</label>
+                    <label className="sm:text-[16px] text-[15px]">Title*</label>
                     <Input
                         required
                         placeholder="Title"
@@ -172,7 +173,9 @@ const UploadImageForm = ({ setIsOpen }: { setIsOpen?: () => void }) => {
                     />
                 </div>
                 <div className="flex flex-col gap-2 font-poppins font-medium">
-                    <label className='sm:text-[16px] text-[15px]'>Description*</label>
+                    <label className="sm:text-[16px] text-[15px]">
+                        Description*
+                    </label>
                     <Textarea
                         required
                         placeholder="Description"

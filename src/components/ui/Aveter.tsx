@@ -6,16 +6,17 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Spinner } from './spinner';
 import { cn } from '@/lib/utils';
-import defaultAveter from '@/assets/defaultAveter.png'
+import defaultAveter from '@/assets/defaultAveter.png';
 
 const Aveter = () => {
     const { currentUser } = useCurrentUser();
     const [avaterLoaded, setAvaterLoaded] = useState<boolean>(false);
     const [menuAvaterLoaded, setMenuAvaterLoaded] = useState<boolean>(false);
+    const [aveterClicked, setAveterClicked] = useState<boolean>(false);
     return (
         <main className="relative font-poppins group flex justify-end">
-            <Link
-                href={'/profile'}
+            <div
+                onClick={() => setAveterClicked((prev) => !prev)}
                 className="md:w-12 w-8 h-8 md:h-12 rounded-full overflow-hidden flex items-center justify-center cursor-pointer bg-zinc-100"
             >
                 {currentUser && (
@@ -32,9 +33,14 @@ const Aveter = () => {
                     />
                 )}
                 {!avaterLoaded && <Spinner className="scale-[1.2] absolute" />}
-            </Link>
+            </div>
 
-            <section className="bg-white max-h-0 p-0 group-hover:max-h-100 group-hover:opacity-100 opacity-0 group-hover:p-5 shadow-md sm:w-60 w-50 overflow-hidden absolute mt-12 rounded flex flex-col items-center duration-300">
+            <section
+                className={cn(
+                    'bg-white max-h-0 p-0 group-hover:max-h-100 group-hover:opacity-100 opacity-0 group-hover:p-5 shadow-md sm:w-60 w-50 overflow-hidden absolute mt-12 rounded flex flex-col items-center duration-300',
+                    aveterClicked && 'max-h-100 opacity-100 p-5'
+                )}
+            >
                 <Link
                     href={'/profile'}
                     className="md:w-15 w-10 h-10 md:h-15 rounded-full overflow-hidden flex items-center justify-center cursor-pointer bg-zinc-100"
@@ -52,7 +58,9 @@ const Aveter = () => {
                             )}
                         />
                     )}
-                    {!menuAvaterLoaded && <Spinner className="scale-[1.3] absolute" />}
+                    {!menuAvaterLoaded && (
+                        <Spinner className="scale-[1.3] absolute" />
+                    )}
                 </Link>
                 <Link
                     href={'/profile'}

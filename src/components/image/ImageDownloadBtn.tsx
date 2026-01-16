@@ -9,12 +9,12 @@ const ImageDownloadBtn = ({ image }: { image: imagesType }) => {
     return (
         <button
             onClick={(e) => handleDownload(e, image.imageUrl, image.title)}
-            className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600"
+            className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600 text-[20px] max-[500px]:text-[18px] max-[500px]:h-9 max-[500px]:w-9"
         >
             {!loading ? (
-                <HiOutlineDownload size={20} />
+                <HiOutlineDownload />
             ) : (
-                <Spinner className="scale-[1.3]" />
+                <Spinner className="scale-[1.3] max-[500px]:scale-100" />
             )}
         </button>
     );

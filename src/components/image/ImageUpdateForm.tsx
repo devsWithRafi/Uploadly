@@ -140,7 +140,8 @@ const ImageUpdateForm = ({
                         <span>Update</span>
                     )}
                 </Button>
-                <Button type='button'
+                <Button
+                    type="button"
                     onClick={setIsOpen}
                     variant={'outline'}
                     className="p-5 font-poppins w-full text-[15px] -mt-2"

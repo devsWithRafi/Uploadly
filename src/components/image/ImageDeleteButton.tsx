@@ -40,9 +40,9 @@ const ImageDeleteButton = ({ image }: { image: imagesType }) => {
         <>
             <button
                 onClick={() => setIsOpen(true)}
-                className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600"
+                className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600 text-[20px] max-[500px]:text-[18px] max-[500px]:h-9 max-[500px]:w-9"
             >
-                <AiOutlineDelete size={20} />
+                <AiOutlineDelete />
             </button>
 
             <Portal isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>

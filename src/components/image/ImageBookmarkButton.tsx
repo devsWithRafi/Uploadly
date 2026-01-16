@@ -38,13 +38,13 @@ const ImageBookmarkButton = ({ image }: { image: imagesType }) => {
                     : router.push('/signup')
             }
             className={cn(
-                'h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600'
+                'h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600 text-[20px] max-[500px]:text-[18px] max-[500px]:h-9 max-[500px]:w-9'
             )}
         >
             {currentUser && bookMarked ? (
-                <MdOutlineBookmarkAdded size={20} className='text-pink-400'/>
+                <MdOutlineBookmarkAdded className="text-pink-400" />
             ) : (
-                <MdOutlineBookmarkAdd size={20} />
+                <MdOutlineBookmarkAdd />
             )}
         </button>
     );

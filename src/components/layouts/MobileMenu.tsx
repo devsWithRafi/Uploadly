@@ -15,7 +15,7 @@ import { RxCross2 } from 'react-icons/rx';
 import { CirclePlus } from 'lucide-react';
 import Portal from '../Portal';
 import UploadImageForm from '../image/UploadImageForm';
-import { SignedIn, SignedOut } from '@clerk/nextjs';
+import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs';
 import { Button } from '../ui/button';
 
 const MobileMenu = () => {
@@ -31,8 +31,8 @@ const MobileMenu = () => {
 
     return (
         <>
-            <main className="bg-white/90 backdrop-blur-[15px] md:hidden z-[50] flex flex-col fixed top-0 left-0 right-0 items-center justify-evenly  w-full border-t text-[20px] shadow-md">
-                <section className="w-full flex items-center justify-between px-5 py-2 border-b border-zinc-400">
+            <main className="bg-white/90 backdrop-blur-[15px] md:hidden z-[50] flex flex-col fixed top-0 left-0 right-0 items-center justify-evenly  w-full text-[20px] shadow">
+                <section className="w-full flex items-center justify-between px-5 py-2  border-zinc-400">
                     {/* LEFT SIDE */}
                     <div className="flex items-center gap-2">
                         <button
@@ -160,6 +160,11 @@ const MobileMenu = () => {
                             >
                                 My Bookmarks
                             </Link>
+                            <SignOutButton>
+                                <button className="flex items-center gap-2 border-b border-zinc-300 py-3 w-full hover:text-zinc-500 duration-300">
+                                    Sign Out
+                                </button>
+                            </SignOutButton>
                         </SignedIn>
                         <SignedOut>
                             <Link href={'/signin'} className="w-full">
@@ -175,7 +180,7 @@ const MobileMenu = () => {
                 <section
                     className={cn(
                         'w-full px-5 max-h-0 overflow-hidden font-space font-semibold text-[17px] flex flex-col opacity-0 duration-300',
-                        isSearchberOpen && 'py-10 max-h-70 opacity-100'
+                        isSearchberOpen && 'py-2 max-h-70 opacity-100'
                     )}
                 >
                     <SearchBer className="bg-transparent border-2 border-[#EA4C89]/20 hover;border-[#EA4C89]/50 focus-within:border-[#EA4C89]/50  text-[13px]" />

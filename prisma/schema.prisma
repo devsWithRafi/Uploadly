@@ -11,6 +11,7 @@ model User {
   id                 String  @id @default(cuid())
   clerkId            String
   image              String?
+  imagePublicId      String?
   coverImage         String?
   coverImagePublicId String?
   bio                String?

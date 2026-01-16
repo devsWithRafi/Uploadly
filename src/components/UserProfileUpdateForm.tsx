@@ -73,7 +73,9 @@ const UserProfileUpdateForm = ({
     const [inputSocialInfo, setInputSocialInfo] =
         useState<platformType>(platforms);
     const [coverImgFile, setCoverImgFile] = useState<File | null>(null);
+    const [profileImageFile, setProfileImageFile] = useState<File | null>(null);
     const fileRef = useRef<HTMLInputElement>(null);
+    const profileFileRef = useRef<HTMLInputElement>(null);
 
     const InputProps = (
         placeholder: string,
@@ -110,6 +112,8 @@ const UserProfileUpdateForm = ({
             formData.append('platforms', JSON.stringify(inputSocialInfo));
 
             if (coverImgFile) formData.append('coverImage', coverImgFile);
+            if (profileImageFile)
+                formData.append('profileImage', profileImageFile);
 
             const res = await axios.put('/api/update-user', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
@@ -146,7 +150,7 @@ const UserProfileUpdateForm = ({
     return (
         <main
             onSubmit={handleSubmit}
-            className="bg-gray-50 w-150 max-[665px]:w-[95vw] h-[90vh] max-[665px]:h-[95vh] overflow-y-auto rounded-xl shadow-md"
+            className="bg-gray-50 w-150 max-[665px]:w-[95vw] max-h-[90vh] max-[665px]:h-[95vh] overflow-y-auto rounded-xl shadow-md"
         >
             {/* COVER PHOTO */}
             <section
@@ -173,6 +177,7 @@ const UserProfileUpdateForm = ({
                     )}
 
                     <button
+                        type="button"
                         onClick={() => fileRef.current?.click()}
                         className="absolute top-2 right-2 bg-white w-8 h-8 aspect-square rounded-full flex items-center justify-center text-[14px] cursor-pointer shadow-md hover:bg-parple hover:text-white duration-200"
                     >
@@ -199,16 +204,38 @@ const UserProfileUpdateForm = ({
             >
                 {/* PROFILE INFO */}
                 <section className="mt-5 relative px-8 max-[525px]:px-5 flex items-center gap-5">
-                    <div className="w-30 max-[525px]:w-25 aspect-square rounded-full overflow-hidden">
+                    <div className="w-30 max-[525px]:w-25 aspect-square rounded-full overflow-hidden relative flex items-center justify-center">
                         {currentUser && (
                             <Image
-                                src={currentUser.image || defaultAveter}
+                                src={
+                                    profileImageFile
+                                        ? URL.createObjectURL(profileImageFile)
+                                        : currentUser.image
+                                        ? currentUser.image
+                                        : defaultAveter
+                                }
                                 alt=""
                                 width={300}
                                 height={300}
                                 className="w-full h-full"
                             />
                         )}
+                        <button
+                            type="button"
+                            onClick={() => profileFileRef.current?.click()}
+                            className="absolute bg-white w-8 h-8 aspect-square rounded-full flex items-center justify-center text-[14px] cursor-pointer shadow-md hover:bg-parple hover:text-white duration-200"
+                        >
+                            <FiEdit />
+                            <input
+                                ref={profileFileRef}
+                                onChange={(e) =>
+                                    e.target.files &&
+                                    setProfileImageFile(e.target.files[0])
+                                }
+                                type="file"
+                                className="hidden"
+                            />
+                        </button>
                     </div>
                     <div className="flex flex-col gap-2 w-full">
                         {/* inputs */}

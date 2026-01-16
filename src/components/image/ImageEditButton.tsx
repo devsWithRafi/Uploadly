@@ -11,9 +11,9 @@ const ImageEditButton = ({ image }: { image: imagesType }) => {
         <>
             <button
                 onClick={() => setEditPopupOpen((prev) => !prev)}
-                className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600"
+                className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600 text-[17px] max-[500px]:text-[15px] max-[500px]:h-9 max-[500px]:w-9"
             >
-                <FiEdit size={17} />
+                <FiEdit />
             </button>
             {/* PORTAL */}
             <Portal

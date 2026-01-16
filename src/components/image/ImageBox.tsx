@@ -18,6 +18,7 @@ import ImageShareButton from './ImageShareButton';
 import { BiDotsVertical } from 'react-icons/bi';
 import ImageDeleteButton from './ImageDeleteButton';
 import ImageDownloadBtn from './ImageDownloadBtn';
+import { RxCross2 } from 'react-icons/rx';
 
 const ImageBox = ({
     image,
@@ -31,6 +32,7 @@ const ImageBox = ({
     const [imageLoaded, setImageLoaded] = useState<boolean>(false);
     const { currentUser } = useCurrentUser();
     const imageCreatedAt = useTimeAgo(image.createdAt);
+    const [imageEditClicked, setImageEditClicked] = useState<boolean>(false);
 
     return (
         <main className="w-full">
@@ -58,13 +60,34 @@ const ImageBox = ({
                     currentUser?.id === image.userId &&
                     editMode && (
                         <section className="absolute top-3 group/inner duration-300 right-3 opacity-100 group-hover:opacity-100 flex flex-col rounded-full">
-                            <div className="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center group-hover/inner:text-zinc-600">
-                                <BiDotsVertical size={20} />
+                            <div
+                                onClick={() =>
+                                    setImageEditClicked((prev) => !prev)
+                                }
+                                className="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center group-hover/inner:text-zinc-600 text-[20px] max-[500px]:text-[18px] max-[500px]:h-9 max-[500px]:w-9"
+                            >
+                                {!imageEditClicked ? (
+                                    <BiDotsVertical />
+                                ) : (
+                                    <RxCross2 />
+                                )}
                             </div>
-                            <div className="group-hover/inner:max-h-30 max-h-0 overflow-hidden duration-300 group-hover/inner:mt-1 opacity-0 group-hover/inner:opacity-100">
+                            <div
+                                className={cn(
+                                    'group-hover/inner:max-h-30 max-h-0 overflow-hidden duration-300 group-hover/inner:mt-1 opacity-0 group-hover/inner:opacity-100',
+                                    imageEditClicked &&
+                                        'max-h-30 mt-1 opacity-100'
+                                )}
+                            >
                                 <ImageEditButton image={image} />
                             </div>
-                            <div className="group-hover/inner:max-h-30 max-h-0 overflow-hidden duration-300 group-hover/inner:mt-1 opacity-0 group-hover/inner:opacity-100">
+                            <div
+                                className={cn(
+                                    'group-hover/inner:max-h-30 max-h-0 overflow-hidden duration-300 group-hover/inner:mt-1 opacity-0 group-hover/inner:opacity-100',
+                                    imageEditClicked &&
+                                        'max-h-30 mt-1 opacity-100'
+                                )}
+                            >
                                 <ImageDeleteButton image={image} />
                             </div>
                         </section>
@@ -87,8 +110,8 @@ const ImageBox = ({
                 )}
                 {/* IMAGE BOTTOM */}
                 {imageLoaded && (
-                    <div className="absolute w-full bottom-0 flex gap-2 justify-between p-5 h-22 bg-linear-to-b from-transparent to-black/50 text-white opacity-0 group-hover:opacity-100 duration-300">
-                        <h1 className="font-poppins font-medium text-2xl mb-2 drop-shadow-xl w-full overflow-hidden text-ellipsis text-nowrap">
+                    <div className="absolute w-full bottom-0 flex gap-2 justify-between p-5 h-22 bg-linear-to-b from-transparent to-black/50 text-white opacity-0 group-hover:opacity-100 duration-300 max-[500px]:opacity-100 max-[500px]:h-20">
+                        <h1 className="font-poppins font-medium text-2xl max-[500px]:text-xl mb-2 drop-shadow-xl w-full overflow-hidden text-ellipsis text-nowrap">
                             {image.title}
                         </h1>
 
@@ -96,7 +119,7 @@ const ImageBox = ({
                             {/* BOOKMARK BUTTON */}
                             <ImageBookmarkButton image={image} />
                             {/* DOWNLOAD BUTTON */}
-                           <ImageDownloadBtn image={image}/>
+                            <ImageDownloadBtn image={image} />
                         </div>
                     </div>
                 )}
