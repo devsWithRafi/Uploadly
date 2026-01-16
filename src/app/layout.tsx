@@ -6,7 +6,6 @@ import CurrentUserProvider from '@/context/user-context/CurrentUserProvider';
 import { Toaster } from 'react-hot-toast';
 import { getCurrentUser } from '@/lib/auth/getCurrentUser';
 import ImageProvider from '@/context/imagesContext/ImageProvider';
-import SearchberProvider from '@/context/serchber-context/SearchberProvider';
 
 const poppins = Poppins({
     variable: '--font-poppins',
@@ -47,7 +46,7 @@ export default async function RootLayout({
                     <Toaster position="top-center" reverseOrder={false} />
                     <CurrentUserProvider currentUser={user}>
                         <ImageProvider>
-                            <SearchberProvider>{children}</SearchberProvider>
+                            {children}
                         </ImageProvider>
                     </CurrentUserProvider>
                 </body>

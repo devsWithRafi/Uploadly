@@ -14,7 +14,8 @@ import { cn } from '@/lib/utils';
 interface ImageUpdateProps {
     imageId: string;
     userId: string;
-    onSuccess: () => void
+    onSuccess: () => void;
+    setIsOpen?: () => void;
 }
 
 interface inputDataType {
@@ -23,7 +24,12 @@ interface inputDataType {
     description: string;
 }
 
-const ImageUpdateForm = ({ imageId, userId, onSuccess }: ImageUpdateProps) => {
+const ImageUpdateForm = ({
+    imageId,
+    userId,
+    onSuccess,
+    setIsOpen,
+}: ImageUpdateProps) => {
     const { images, fetchImages } = useImages();
     const imageFound = images?.find((item) => item.id === imageId);
     const [loading, setLoading] = useState<boolean>(false);
@@ -70,7 +76,7 @@ const ImageUpdateForm = ({ imageId, userId, onSuccess }: ImageUpdateProps) => {
             const data = await res.data;
             if (data.success === true) {
                 fetchImages();
-                onSuccess()
+                onSuccess();
                 toast.success('Image Update Successful!');
             } else {
                 toast.error(data.error);
@@ -82,7 +88,7 @@ const ImageUpdateForm = ({ imageId, userId, onSuccess }: ImageUpdateProps) => {
         }
     };
     return (
-        <section className="w-150 bg-white rounded-xl p-8">
+        <section className="w-150 max-[650px]:w-[95vw] max-h-[95vh] overflow-y-auto bg-white rounded-xl p-8 max-[500px]:p-5">
             <form
                 onSubmit={handleSubmit}
                 className={cn(
@@ -104,14 +110,14 @@ const ImageUpdateForm = ({ imageId, userId, onSuccess }: ImageUpdateProps) => {
                     name="title"
                     value={inputData.title}
                     onChange={handleChange}
-                    className="py-6"
+                    className="py-6 max-[500px]:py-4.5 text-[16px] max-[500px]:text-[14px] max-[500px]:rounded-sm"
                 />
                 <Input
                     placeholder="Category"
                     name="category"
                     value={inputData.category}
                     onChange={handleChange}
-                    className="py-6"
+                    className="py-6 max-[500px]:py-4.5 text-[16px] max-[500px]:text-[14px] max-[500px]:rounded-sm"
                 />
                 <Textarea
                     placeholder="Description"
@@ -119,10 +125,13 @@ const ImageUpdateForm = ({ imageId, userId, onSuccess }: ImageUpdateProps) => {
                     name="description"
                     value={inputData.description}
                     onChange={handleChange}
-                    className="min-h-30 max-h-50 resize-none w-full text-lef"
+                    className="min-h-30 max-h-50 resize-none w-full text-left text-[16px] max-[500px]:text-[14px]"
                 />
 
-                <Button type="submit" className="w-full p-5.5 font-poppins">
+                <Button
+                    type="submit"
+                    className="w-full p-5.5 font-poppins text-[15px]"
+                >
                     {loading ? (
                         <span className="flex items-center gap-1">
                             <Spinner /> Updating...
@@ -130,6 +139,13 @@ const ImageUpdateForm = ({ imageId, userId, onSuccess }: ImageUpdateProps) => {
                     ) : (
                         <span>Update</span>
                     )}
+                </Button>
+                <Button type='button'
+                    onClick={setIsOpen}
+                    variant={'outline'}
+                    className="p-5 font-poppins w-full text-[15px] -mt-2"
+                >
+                    Cancel
                 </Button>
             </form>
         </section>

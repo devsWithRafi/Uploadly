@@ -1,17 +1,8 @@
 import prisma from '@/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
-    const { imageId } = await req.json();
-    if (!imageId) {
-        return NextResponse.json(
-            { success: false, error: 'Image id is required!' },
-            { status: 400 }
-        );
-    }
-
+export async function GET() {
     const comments = await prisma.comment.findMany({
-        where: { imageId },
         include: {
             user: true,
         },

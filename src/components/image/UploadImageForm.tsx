@@ -18,7 +18,7 @@ import { useImages } from '@/context/imagesContext/ImageContext';
 import { Textarea } from '../ui/textarea';
 import { LuImagePlus } from 'react-icons/lu';
 
-const UploadImageForm = () => {
+const UploadImageForm = ({ setIsOpen }: { setIsOpen?: () => void }) => {
     const InitialInputData = {
         title: '',
         description: '',
@@ -93,7 +93,7 @@ const UploadImageForm = () => {
     return (
         <section
             className={cn(
-                'w-150 h-[90vh] bg-white overflow-y-auto p-5 rounded',
+                'md:w-150 w-[95vw] md:h-[90vh] h-[95vh] bg-white overflow-y-auto p-5 rounded',
                 uploading && 'pointer-events-none select-none'
             )}
         >
@@ -102,7 +102,7 @@ const UploadImageForm = () => {
                 {...getRootProps()}
                 className={cn(
                     'w-full aspect-[2/1.2] flex items-center justify-center relative',
-                    image ? 'border-0' : 'border-2',
+                    image ? 'border-0' : 'sm:border-2 border',
                     isDragActive
                         ? 'border-dashed border-blue-500'
                         : 'border-dashed border-gray-400'
@@ -110,16 +110,16 @@ const UploadImageForm = () => {
             >
                 {!image && (
                     <div className="absolute flex text-center items-center flex-col gap-1">
-                        <LuImagePlus size={60} className="text-zinc-400" />
-                        <h2 className="font-poppins capitalize font-semibold mt-5">
+                        <LuImagePlus className="text-zinc-400 sm:text-[60px] text-[40px]" />
+                        <h2 className="font-poppins capitalize font-semibold mt-5 sm:text-[17px] text-[14px]">
                             choose a file or drag & drop it here
                         </h2>
-                        <h2 className="font-josefin text-zinc-400 text-[14px] uppercase font-medium">
+                        <h2 className="font-josefin text-zinc-400 sm:text-[14px] text-[12px] uppercase font-medium">
                             jpg, jpeg, png, webp formats only
                         </h2>
                         <Button
                             variant={'outline'}
-                            className="font-poppins text-gray-500 px-5 cursor-pointer mt-4"
+                            className="font-poppins text-gray-500  sm:text-[15px] text-[13px] px-5 cursor-pointer mt-4"
                         >
                             Browse File
                         </Button>
@@ -147,36 +147,36 @@ const UploadImageForm = () => {
             {/* FORM HERE */}
             <form
                 onSubmit={handleSubmit}
-                className="w-full flex flex-col gap-5 p-5 mt-2"
+                className="w-full flex flex-col gap-5 sm:p-5 py-5 mt-2"
             >
                 <div className="flex flex-col gap-2 font-poppins font-medium">
-                    <label>Category*</label>
+                    <label className='sm:text-[16px] text-[15px]'>Category*</label>
                     <Input
                         required
                         placeholder="Category"
-                        className="p-5"
+                        className="p-5 sm:text-[15px] text-[13px]"
                         name="category"
                         onChange={handleChange}
                         value={inputData.category}
                     />
                 </div>
                 <div className="flex flex-col gap-2 font-poppins font-medium">
-                    <label>Title*</label>
+                    <label className='sm:text-[16px] text-[15px]'>Title*</label>
                     <Input
                         required
                         placeholder="Title"
-                        className="p-5"
+                        className="p-5 sm:text-[15px] text-[13px]"
                         name="title"
                         onChange={handleChange}
                         value={inputData.title}
                     />
                 </div>
                 <div className="flex flex-col gap-2 font-poppins font-medium">
-                    <label>Description*</label>
+                    <label className='sm:text-[16px] text-[15px]'>Description*</label>
                     <Textarea
                         required
                         placeholder="Description"
-                        className="p-5 resize-none min-h-30 max-h-50"
+                        className="p-5 resize-none min-h-30 max-h-50 sm:text-[15px] text-[13px]"
                         rows={4}
                         name="description"
                         onChange={handleChange}
@@ -187,12 +187,20 @@ const UploadImageForm = () => {
                 <Button
                     type="submit"
                     className={cn(
-                        'p-6 uppercase cursor-pointer',
+                        'sm:p-6 p-5 uppercase cursor-pointer mt-7',
                         uploading && 'pointer-events-none bg-gray-600'
                     )}
                 >
                     {uploading && <Spinner />}
                     {uploading ? 'Uploading...' : 'Submit'}
+                </Button>
+                <Button
+                    onClick={setIsOpen}
+                    type="button"
+                    variant={'outline'}
+                    className="sm:p-6 p-4 uppercase cursor-pointer"
+                >
+                    Cancel
                 </Button>
             </form>
         </section>

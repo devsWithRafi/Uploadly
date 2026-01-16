@@ -18,12 +18,13 @@ const ImageEditButton = ({ image }: { image: imagesType }) => {
             {/* PORTAL */}
             <Portal
                 isOpen={editPopupOpen}
-                setIsOpen={() => setEditPopupOpen((prev) => !prev)}
+                setIsOpen={() => setEditPopupOpen(false)}
             >
                 <ImageUpdateForm
                     imageId={image.id}
                     userId={image.userId}
-                    onSuccess={() => setEditPopupOpen((prev) => !prev)}
+                    onSuccess={() => setEditPopupOpen(false)}
+                    setIsOpen={() => setEditPopupOpen(false)}
                 />
             </Portal>
         </>

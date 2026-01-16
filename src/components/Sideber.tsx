@@ -1,10 +1,9 @@
 'use client';
+
 import { AddComments } from '@/actions/action';
 import { imagesType, useImages } from '@/context/imagesContext/ImageContext';
 import { useCurrentUser } from '@/context/user-context/UserContext';
-import { User } from '@/generated/prisma/client';
 import { cn } from '@/lib/utils';
-import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
@@ -16,42 +15,28 @@ import { SignedIn, SignedOut } from '@clerk/nextjs';
 import RedirectToProfile from './RedirectToProfile';
 import { Button } from './ui/button';
 import { BiLogInCircle } from 'react-icons/bi';
+import { useFeedbacks } from '@/context/feedbackContext/FeedbackContext';
+import { RxCross2 } from 'react-icons/rx';
+import DeleteFeedback from './DeleteFeedback';
 
-interface CommentsType {
-    id: number | string;
-    comment: string;
-    userId: string;
-    imageId: string;
-    user: User;
-}
-
-const Sideber = ({ isOpen, image }: { isOpen: boolean; image: imagesType }) => {
+const Sideber = ({
+    isOpen,
+    setIsOpen,
+    image,
+}: {
+    isOpen?: boolean;
+    setIsOpen?: () => void;
+    image: imagesType;
+}) => {
     const { fetchImages } = useImages();
     const [comment, setComment] = useState<string>('');
     const { currentUser } = useCurrentUser();
-    const [allComments, setAllComments] = useState<CommentsType[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
-    const showComments = async () => {
-        try {
-            const res = await axios.post('/api/get-all-comments', {
-                imageId: image.id,
-            });
-            const data = await res.data;
-            if (!data) {
-                console.log('Oops comments data not found!');
-                setAllComments([]);
-                return;
-            }
-            setAllComments(data);
-        } catch (error) {
-            setAllComments([]);
-            console.log(error);
-        }
-    };
+    const { allFeedacks, fetchFeedbacks, isLoading } = useFeedbacks();
 
     useEffect(() => {
-        showComments();
+        if (isOpen) fetchFeedbacks();
     }, [isOpen]);
 
     const handleComment = async () => {
@@ -63,9 +48,10 @@ const Sideber = ({ isOpen, image }: { isOpen: boolean; image: imagesType }) => {
         }
         const userId = currentUser.id;
         const imageId = image.id;
+        // server action
         await AddComments({ imageId, userId, comment });
         setComment('');
-        showComments();
+        fetchFeedbacks();
         fetchImages();
 
         setLoading(false);
@@ -74,57 +60,84 @@ const Sideber = ({ isOpen, image }: { isOpen: boolean; image: imagesType }) => {
     return (
         <main
             className={cn(
-                'fixed top-0 w-120 right-0 p-10 h-screen bg-white shadow-md ease duration-500',
+                'fixed top-0 sm:w-120 w-full right-0 p-10 h-screen bg-white shadow-md ease duration-500',
                 !isOpen ? 'translate-x-full' : 'translate-x-0'
             )}
         >
-            <div className="font-poppins font-medium text-[20px]">
+            <div className="font-poppins font-medium text-[20px] flex items-center justify-between border-b border-zinc-300 py-2">
                 Feedbacks
+                <button
+                    onClick={setIsOpen}
+                    className="cursor-pointer text-zinc-500 hover:-rotate-90 duration-300 hover:text-zinc-950"
+                >
+                    <RxCross2 size={25} />
+                </button>
             </div>
             <section
                 className={cn(
-                    'relative max-h-full overflow-y-auto',
-                    allComments?.length < 1 &&
+                    'relative max-h-full overflow-y-auto pt-5',
+                    allFeedacks?.length < 1 &&
                         'flex items-center justify-center w-full h-full'
                 )}
             >
                 {/* COMMENTS */}
-                {allComments?.length > 0 && (
-                    <div className="flex flex-col">
-                        {allComments?.map((item) => (
-                            <div
-                                key={item.id}
-                                className="flex items-start py-3 gap-2 font-medium font-poppins"
-                            >
-                                {/* AVATER */}
-                                <RedirectToProfile image={image}>
-                                    <Image
-                                        src={item.user.image!}
-                                        alt=""
-                                        width={200}
-                                        height={200}
-                                        className="min-w-10 min-h-10 max-w-10 max-h-10 aspect-square rounded-full cursor-pointer"
-                                    />
-                                </RedirectToProfile>
-                                <div>
-                                    {/* Persons name */}
-                                    <h2 className="mt-2 text-[16px]">
-                                        {item.user.name}
-                                    </h2>
-                                    {/* comment */}
-                                    <h2 className="font-medium font-space text-[14px] text-zinc-600">
-                                        {item.comment}
-                                    </h2>
-                                </div>
-                            </div>
-                        ))}
 
-                        <span className="w-full h-50 mt-5 text-center font-poppins">
-                            That’s all the feedback so far!
-                        </span>
-                    </div>
+                {isLoading ? (
+                    <span className="flex items-center gap-1 font-space text-zinc-500">
+                        <Spinner />
+                        Loading...
+                    </span>
+                ) : (
+                    allFeedacks?.length > 0 && (
+                        <div className="flex flex-col">
+                            {allFeedacks?.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className="flex items-start py-3 gap-2 font-medium font-poppins group"
+                                >
+                                    {/* AVATER */}
+                                    <RedirectToProfile image={image}>
+                                        <Image
+                                            src={item.user.image!}
+                                            alt=""
+                                            width={200}
+                                            height={200}
+                                            className="min-w-10 min-h-10 max-w-10 max-h-10 aspect-square rounded-full cursor-pointer"
+                                        />
+                                    </RedirectToProfile>
+                                    <div className="flex mt-2 items-start justify-between w-full">
+                                        <div>
+                                            {/* Persons name */}
+                                            <h2 className="text-[16px]">
+                                                {item.user.name}
+                                            </h2>
+                                            {/* comment */}
+                                            <h2 className="font-medium font-space text-[14px] text-zinc-600">
+                                                {item.comment}
+                                            </h2>
+                                        </div>
+                                        {/* comment delete button */}
+                                        {currentUser &&
+                                            item.userId === currentUser.id &&
+                                            item.imageId === image.id && (
+                                                <DeleteFeedback
+                                                    commentId={item.id}
+                                                    userId={currentUser.id}
+                                                    imageId={item.imageId}
+                                                    className="opacity-0 group-hover:opacity-100"
+                                                />
+                                            )}
+                                    </div>
+                                </div>
+                            ))}
+
+                            <span className="w-full h-50 mt-5 text-center font-poppins">
+                                That’s all the feedback so far!
+                            </span>
+                        </div>
+                    )
                 )}
-                {allComments?.length < 1 && (
+                {!isLoading && allFeedacks?.length < 1 && (
                     <div className="-mt-30 w-full h-full flex items-center justify-center flex-col text-center font-poppins">
                         <BiMessageSquareError
                             size={70}

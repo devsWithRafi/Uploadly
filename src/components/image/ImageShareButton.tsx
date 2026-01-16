@@ -4,29 +4,29 @@ import { IoMdShareAlt } from 'react-icons/io';
 import Portal from '../Portal';
 import ImageSharePopup from './ImageSharePopup';
 import { imagesType } from '@/context/imagesContext/ImageContext';
+import { cn } from '@/lib/utils';
 
 const ImageShareButton = ({
     image,
-    text = true,
+    className,
 }: {
-    image: imagesType;
-    text?: boolean;
+    image?: imagesType;
+    className?: string;
 }) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     return (
         <>
             <button
-                onClick={() => setIsOpen((prev) => !prev)}
-                className="text-[14px] text-zinc-400 select-none flex items-center gap-1 cursor-pointer"
+                onClick={() => setIsOpen(true)}
+                className={cn(
+                    'text-[14px] text-zinc-400 hover:text-zinc-600 duration-200 select-none flex items-center gap-1 cursor-pointer',
+                    className
+                )}
             >
-                {text && <h2 className="font-medium">Share</h2>}
-                <IoMdShareAlt size={20} />
+                <IoMdShareAlt/>
             </button>
             {/* PORTAL */}
-            <Portal
-                isOpen={isOpen}
-                setIsOpen={() => setIsOpen((prev) => !prev)}
-            >
+            <Portal isOpen={isOpen} setIsOpen={() => setIsOpen(false)}>
                 <ImageSharePopup />
             </Portal>
         </>

@@ -35,7 +35,7 @@ const Portal = ({ children, isOpen, setIsOpen }: PortalProps) => {
         <section
             onClick={setIsOpen}
             className={cn(
-                'w-screen h-screen left-0 right-0 top-0 bottom-0 fixed flex items-center justify-center z-[999999999] bg-black/35 inset-0 ease-in-out duration-300',
+                'w-screen h-screen left-0 right-0 top-0 bottom-0 fixed flex items-center justify-center z-[999] bg-black/35 inset-0 ease-in-out duration-300',
                 isOpen
                     ? 'pointer-events-auto opacity-100'
                     : 'pointer-events-none opacity-0'

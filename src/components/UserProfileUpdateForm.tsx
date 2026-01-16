@@ -83,7 +83,7 @@ const UserProfileUpdateForm = ({
             name,
             placeholder: `${placeholder} (Optional)`,
             className:
-                'border h-full capitalize border-gray-500 p-5 font-space',
+                'border h-full capitalize border-gray-500 p-5 font-space max-[525px]:p-4 text-[16px] max-[525px]:text-[14px]',
             onChange: (e: ChangeEvent<HTMLInputElement>) =>
                 inpuType === 'social'
                     ? setInputSocialInfo({
@@ -142,7 +142,7 @@ const UserProfileUpdateForm = ({
     return (
         <main
             onSubmit={handleSubmit}
-            className="bg-gray-50 w-150 h-[90vh] overflow-y-auto rounded-xl shadow-md"
+            className="bg-gray-50 w-150 max-[665px]:w-[95vw] h-[90vh] max-[665px]:h-[95vh] overflow-y-auto rounded-xl shadow-md"
         >
             {/* COVER PHOTO */}
             <section
@@ -185,6 +185,7 @@ const UserProfileUpdateForm = ({
                     </button>
                 </div>
             </section>
+            {/* FORM */}
             <form
                 onSubmit={handleSubmit}
                 className={cn(
@@ -193,8 +194,8 @@ const UserProfileUpdateForm = ({
                 )}
             >
                 {/* PROFILE INFO */}
-                <section className="mt-5 relative px-8 flex items-center gap-5">
-                    <div className="w-30 aspect-square rounded-full overflow-hidden">
+                <section className="mt-5 relative px-8 max-[525px]:px-5 flex items-center gap-5">
+                    <div className="w-30 max-[525px]:w-25 aspect-square rounded-full overflow-hidden">
                         <Image
                             src={currentUser.image}
                             alt=""
@@ -205,13 +206,13 @@ const UserProfileUpdateForm = ({
                     </div>
                     <div className="flex flex-col gap-2 w-full">
                         {/* inputs */}
-                        <div className="h-12 w-full">
+                        <div className="h-12 max-[525px]:h-10 w-full">
                             <Input
                                 {...InputProps('Enter your name', 'name')}
                                 value={inputProfileInfo.name}
                             />
                         </div>
-                        <div className="h-12 w-full">
+                        <div className="h-12 max-[525px]:h-10 w-full">
                             <Input
                                 {...InputProps('Enter your bio', 'bio')}
                                 value={inputProfileInfo.bio}
@@ -220,7 +221,7 @@ const UserProfileUpdateForm = ({
                     </div>
                 </section>
                 {/* SOCIAL INFO */}
-                <section className="w-full relative px-10 mt-15">
+                <section className="w-full relative px-10 max-[525px]:px-7 mt-15">
                     <h1 className="font-poppins font-medium mb-5 text-xl">
                         Add your social info
                     </h1>
@@ -231,9 +232,9 @@ const UserProfileUpdateForm = ({
                             return (
                                 <div
                                     key={key}
-                                    className="flex items-center gap-2 h-12"
+                                    className="flex items-center gap-2 h-12 max-[525px]:h-10"
                                 >
-                                    <span className="h-full aspect-square flex items-center justify-center text-[20px] bg-white shadow rounded-full text-zinc-700">
+                                    <span className="h-full aspect-square flex items-center justify-center text-[20px] bg-white shadow rounded-full text-zinc-700 max-[525px]:text-[16px]">
                                         <ICON />
                                     </span>
                                     <Input
@@ -250,8 +251,8 @@ const UserProfileUpdateForm = ({
                     </div>
                 </section>
                 {/* SUBMIT BUTTON */}
-                <section className="w-full px-10 py-10 flex flex-col gap-3">
-                    <Button type="submit" className="w-full p-5.5 font-poppins">
+                <section className="w-full px-10 max-[525px]:px-7 py-10 flex flex-col gap-3">
+                    <Button type="submit" className="w-full p-5.5 max-[525px]:p-5 font-poppins">
                         {loading ? (
                             <span className="flex items-center gap-1">
                                 <Spinner /> Updating...
@@ -264,7 +265,7 @@ const UserProfileUpdateForm = ({
                         onClick={() => setIsOpen((prev) => !prev)}
                         type="button"
                         variant={'outline'}
-                        className="w-full p-5 font-poppins border-zinc-500"
+                        className="w-full p-5 max-[525px]:p-4.5 font-poppins border-zinc-500"
                     >
                         Cancel
                     </Button>

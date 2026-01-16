@@ -15,6 +15,10 @@ import ImageCommentButton from './ImageCommentButton';
 import { useSlugifyUrl } from '@/hooks/useSlugifyUrl';
 import ImageEditButton from './ImageEditButton';
 import { useCurrentUser } from '@/context/user-context/UserContext';
+import ImageShareButton from './ImageShareButton';
+import { BiDotsVertical } from 'react-icons/bi';
+import ImageDeleteButton from './ImageDeleteButton';
+import ImageDownloadBtn from './ImageDownloadBtn';
 
 const ImageBox = ({
     image,
@@ -51,12 +55,22 @@ const ImageBox = ({
                 </Link>
 
                 {/* EDIT IMAGE */}
-                {imageLoaded && currentUser?.id === image.userId && editMode && (
-                    <section className="absolute top-3 duration-300 right-3 opacity-0 group-hover:opacity-100">
-                        <ImageEditButton image={image} />
-                    </section>
-                )}
-
+                {imageLoaded &&
+                    currentUser?.id === image.userId &&
+                    editMode && (
+                        <section className="absolute top-3 group/inner duration-300 right-3 opacity-100 group-hover:opacity-100 flex flex-col rounded-full">
+                            <div className="w-10 h-10 rounded-full bg-white shadow flex items-center justify-center group-hover/inner:text-zinc-600">
+                                <BiDotsVertical size={20} />
+                            </div>
+                            <div className="group-hover/inner:max-h-30 max-h-0 overflow-hidden duration-300 group-hover/inner:mt-1 opacity-0 group-hover/inner:opacity-100">
+                                <ImageEditButton image={image} />
+                            </div>
+                            <div className="group-hover/inner:max-h-30 max-h-0 overflow-hidden duration-300 group-hover/inner:mt-1 opacity-0 group-hover/inner:opacity-100">
+                                <ImageDeleteButton image={image} />
+                            </div>
+                        </section>
+                    )}
+                {/* NEW IMAGE BADGE */}
                 <div className="flex items-center gap-3">
                     {(imageCreatedAt.includes('min') ||
                         imageCreatedAt.includes('sec')) && (
@@ -74,27 +88,16 @@ const ImageBox = ({
                 )}
                 {/* IMAGE BOTTOM */}
                 {imageLoaded && (
-                    <div className="absolute w-full bottom-0 flex justify-between p-5 py-8 bg-linear-to-b from-transparent to-black/50 text-white opacity-0 group-hover:opacity-100 duration-300">
-                        {!varient && (
-                            <h1 className="font-poppins font-medium text-2xl mb-2 drop-shadow-xl">
-                                {image.title.length > 25
-                                    ? image.title.slice(0, 25) + '...'
-                                    : image.title}
-                            </h1>
-                        )}
+                    <div className="absolute w-full bottom-0 flex gap-2 justify-between p-5 h-22 bg-linear-to-b from-transparent to-black/50 text-white opacity-0 group-hover:opacity-100 duration-300">
+                        <h1 className="font-poppins font-medium text-2xl mb-2 drop-shadow-xl w-full overflow-hidden text-ellipsis text-nowrap">
+                            {image.title}
+                        </h1>
 
-                        {varient === 'small' && (
-                            <h1 className="font-poppins font-medium text-lg mb-2 drop-shadow-xl">
-                                {image.title.length > 20
-                                    ? image.title.slice(0, 20) + '...'
-                                    : image.title}
-                            </h1>
-                        )}
                         <div className="flex gap-2">
+                            {/* BOOKMARK BUTTON */}
                             <ImageBookmarkButton image={image} />
-                            <button className="h-10 w-10 bg-white shadow text-black flex items-center justify-center rounded-full cursor-pointer hover:text-gray-600">
-                                <HiOutlineDownload size={20} />
-                            </button>
+                            {/* DOWNLOAD BUTTON */}
+                           <ImageDownloadBtn image={image}/>
                         </div>
                     </div>
                 )}
@@ -126,9 +129,7 @@ const ImageBox = ({
                                 varient === 'small' && 'text-[13px]'
                             )}
                         >
-                            {varient === 'small'
-                                ? image.user.name.slice(0, 10)
-                                : image.user.name}
+                            {image.user.name.slice(0, 10)}
                         </h1>
                         {/* TIMESTAMP */}
                         <div className="text-gray-400 capitalize text-[14px] font-poppins flex items-center gap-1">
@@ -136,16 +137,21 @@ const ImageBox = ({
                         </div>
                     </div>
                     {/* RIGHT */}
-                    <div className="flex items-center gap-5">
+                    <div className="flex items-center sm:gap-5 gap-3">
                         {/* REACTS */}
                         <ImageLikeButton
                             image={image}
-                            text={varient === 'small' ? false : true}
+                            iconStyle="sm:text-[22px] text-[20px]"
                         />
                         {/* COMMENTS */}
                         <ImageCommentButton
                             image={image}
-                            text={varient === 'small' ? false : true}
+                            iconStyle="sm:text-[20px] text-[18px]"
+                        />
+                        {/* SHARE */}
+                        <ImageShareButton
+                            image={image}
+                            className="text-[20px]"
                         />
                     </div>
                 </div>

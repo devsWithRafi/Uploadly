@@ -10,10 +10,14 @@ import { IoMdHeart } from 'react-icons/io';
 
 const ImageLikeButton = ({
     image,
-    text = true,
+    className,
+    textStyle,
+    iconStyle,
 }: {
     image: imagesType;
-    text?: boolean;
+    className?: string;
+    textStyle?: string;
+    iconStyle?: string;
 }) => {
     const { currentUser } = useCurrentUser();
     const router = useRouter();
@@ -38,22 +42,31 @@ const ImageLikeButton = ({
         }
     };
     return (
-        <section className="flex items-center justify-center gap-1 text-gray-400">
+        <section
+            className={cn(
+                'flex items-center justify-center gap-1 text-gray-400',
+                className
+            )}
+        >
             <IoMdHeart
                 onClick={() =>
                     currentUser
                         ? handleLikeClick(currentUser.id, image.id)
                         : router.push('/signup')
                 }
-                size={20}
                 className={cn(
-                    'cursor-pointer hover:text-pink-400 transition',
+                    'cursor-pointer hover:text-pink-400 transition text-[22px]',
+                    iconStyle,
                     currentUser && liked && 'text-pink-400'
                 )}
             />
-            <div className="text-[14px] select-none flex items-center gap-1">
+            <div
+                className={cn(
+                    'text-[15px] select-none flex items-center gap-1',
+                    textStyle
+                )}
+            >
                 <span>{likes}</span>
-                <span className={cn('', !text && 'hidden')}>Like</span>
             </div>
         </section>
     );
