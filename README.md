@@ -125,7 +125,7 @@ npm install
 ### 3. Set up environment variables
 
 ```bash
-cp .env.example .env.local
+create .env file in the root/src folder
 ```
 
 #### Add your credentials:
